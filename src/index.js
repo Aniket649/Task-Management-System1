@@ -11,9 +11,31 @@ const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      connectSrc: ["'self'", "http://localhost:5000", "http://127.0.0.1:5000", "ws://localhost:5000", "ws://127.0.0.1:5000"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      frameSrc: ["'self'"],
+      upgradeInsecureRequests: null
+    }
+  }
+}));
+
 app.use(cors({
-  origin: ["http://127.0.0.1:5500", "http://localhost:5500"]
+  origin: [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://localhost:5000",
+    "http://127.0.0.1:5000",
+    "https://task-management-system-md068pnbj-anikets-projects-6e5bab41.vercel.app",
+    "https://task-management-system-gules.vercel.app"
+  ],
+  credentials: true
 }));
 
 const limiter = rateLimit({
@@ -26,13 +48,11 @@ app.use(express.json()); // ✅ REQUIRED for req.body
 
 const path = require("path");
 
+// Test route
+app.get("/", (req, res) => res.send("API running"));
+
 // serve static frontend files
 app.use(express.static(path.join(__dirname, "../Front end")));
-
-// open index.html on root URL
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Front end/index.html"));
-});
 
 connectDB();
 
@@ -43,7 +63,7 @@ app.use("/projects", projectRoutes);
 app.use("/tasks", taskRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running: http://localhost:${PORT}`));
+app.listen(PORT, () => console.log("Server running on port", PORT));
 
 
 //convert

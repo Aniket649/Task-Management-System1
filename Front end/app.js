@@ -1,5 +1,8 @@
 const STORAGE_KEY = "taskflow_demo_v3";
-const API_BASE = "http://localhost:5000";
+// Automatically switch between Localhost and Render Backend
+const API_BASE = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+  ? "http://localhost:5000"
+  : "https://task-management-system1-wu74.onrender.com";
 
 
 const DEFAULT_STATE = {
@@ -13,8 +16,8 @@ const DEFAULT_STATE = {
   ],
 
   projects: [
-    { id: 1, name: "Marketing Website Redesign", description: "Refresh public website and landing pages", owner: 1, members: [1,2] },
-    { id: 2, name: "Mobile App Launch", description: "Prepare for v1.0 launch", owner: 1, members: [1,3,4] },
+    { id: 1, name: "Marketing Website Redesign", description: "Refresh public website and landing pages", owner: 1, members: [1, 2] },
+    { id: 2, name: "Mobile App Launch", description: "Prepare for v1.0 launch", owner: 1, members: [1, 3, 4] },
     { id: 3, name: "Internal Tools", description: "Improve internal admin workflows", owner: 1, members: [1] }
   ],
 
@@ -25,7 +28,7 @@ const DEFAULT_STATE = {
       projectId: 1,
       status: "in-progress",
       priority: "high",
-      assigneeIds: [1,2],
+      assigneeIds: [1, 2],
       dueDate: "2026-02-01",
       tags: ["Design", "UI"],
       description: "Create a new hero section with updated brand visuals and responsive layout.",
@@ -55,7 +58,7 @@ const DEFAULT_STATE = {
       projectId: 2,
       status: "todo",
       priority: "urgent",
-      assigneeIds: [1,3],
+      assigneeIds: [1, 3],
       dueDate: "2026-01-25",
       tags: ["Testing"],
       description: "Smoke testing on Android 13 and 14 devices.",
@@ -110,7 +113,7 @@ let state = loadState();
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
 function formatDate(dateStr) {
   if (!dateStr) return "—";
@@ -127,9 +130,9 @@ function statusLabel(status) {
   }[status] || status;
 }
 
-function userById(id){ return state.users.find(u => u.id === id); }
+function userById(id) { return state.users.find(u => u.id === id); }
 
-function initials(name){
+function initials(name) {
   const parts = (name || "").trim().split(/\s+/).filter(Boolean);
   const a = parts[0]?.[0] || "?";
   const b = parts[1]?.[0] || "";
@@ -157,7 +160,7 @@ function loadState() {
   }
 }
 
-function normalizeTasks(tasks){
+function normalizeTasks(tasks) {
   // Backward compatibility: if old "assigneeId" exists, convert to assigneeIds
   return (tasks || []).map(t => {
     if (Array.isArray(t.assigneeIds)) return t;
@@ -178,7 +181,7 @@ function resetDemoData() {
 
 /* ---------------- Ordering helpers ---------------- */
 
-function orderKey(projectId, status){ return `${projectId}|${status}`; }
+function orderKey(projectId, status) { return `${projectId}|${status}`; }
 
 function ensureOrderForColumn(projectId, status, taskIdsInColumn) {
   const key = orderKey(projectId, status);
@@ -194,7 +197,7 @@ function sortTasksByOrder(projectId, status, tasks) {
   const key = orderKey(projectId, status);
   const order = state.orderMap[key] || [];
   const pos = new Map(order.map((id, idx) => [id, idx]));
-  return [...tasks].sort((a,b) => (pos.get(a.id) ?? 999999) - (pos.get(b.id) ?? 999999));
+  return [...tasks].sort((a, b) => (pos.get(a.id) ?? 999999) - (pos.get(b.id) ?? 999999));
 }
 
 function setTaskOrder(projectId, status, orderedTaskIds) {
@@ -298,16 +301,16 @@ if (registerForm) {
 
       // 4. Handle Success
       setToken(data.token); // Save the JWT token
-      
+
       msg.style.color = "lightgreen";
       msg.textContent = "✅ Registration successful! Logging in...";
-      
+
       // Update the user state immediately
-      state.user = { 
-        id: data.user.id, 
-        name: data.user.name, 
-        role: data.user.role, 
-        initials: initials(data.user.name) 
+      state.user = {
+        id: data.user.id,
+        name: data.user.name,
+        role: data.user.role,
+        initials: initials(data.user.name)
       };
 
       // Wait a moment, then show the app
@@ -348,11 +351,11 @@ if (loginForm) {
       msg.textContent = "✅ Login successful!";
 
       // 4. Load User Data into App State
-      state.user = { 
-        id: data.user.id, 
-        name: data.user.name, 
-        role: data.user.role, 
-        initials: initials(data.user.name) 
+      state.user = {
+        id: data.user.id,
+        name: data.user.name,
+        role: data.user.role,
+        initials: initials(data.user.name)
       };
 
       // 5. Open the Dashboard
@@ -390,9 +393,9 @@ if (forgotForm) {
 
       msg.style.color = "lightgreen";
       msg.textContent = "✅ Reset code sent!";
-      
+
       // FOR DEMO PURPOSES: Show the token in an alert so you can copy it
-  
+
 
 
       // Switch to Reset Form
@@ -509,7 +512,7 @@ async function loadProjects() {
 async function loadTasks() {
   if (!state.currentProjectId) return;
   try {
-    const tasks = await api(`/projects/${state.currentProjectId}/tasks`);
+    const tasks = await api(`/tasks/project/${state.currentProjectId}`);
     state.tasks = tasks.map(t => ({
       id: t._id,
       title: t.title,
@@ -701,8 +704,8 @@ function bindSidebar() {
   const sidebar = $("#sidebar");
   const overlay = $("#sidebar-overlay");
 
-  function open(){ sidebar.classList.add("open"); overlay.classList.add("show"); }
-  function close(){ sidebar.classList.remove("open"); overlay.classList.remove("show"); }
+  function open() { sidebar.classList.add("open"); overlay.classList.add("show"); }
+  function close() { sidebar.classList.remove("open"); overlay.classList.remove("show"); }
 
   sidebarToggle.addEventListener("click", () => sidebar.classList.contains("open") ? close() : open());
   overlay.addEventListener("click", close);
@@ -966,8 +969,8 @@ function renderReports() {
   const byStatusList = $("#report-by-status");
   const byPriorityList = $("#report-by-priority");
 
-  const byStatusCounts = { todo:0, "in-progress":0, done:0 };
-  const byPriorityCounts = { low:0, medium:0, high:0, urgent:0 };
+  const byStatusCounts = { todo: 0, "in-progress": 0, done: 0 };
+  const byPriorityCounts = { low: 0, medium: 0, high: 0, urgent: 0 };
 
   state.tasks.forEach((t) => {
     byStatusCounts[t.status] = (byStatusCounts[t.status] || 0) + 1;
@@ -1661,7 +1664,7 @@ function openQuickTaskModal() {
   $("#quick-task-input-due").value = new Date().toISOString().slice(0, 10);
 
   $("#quick-task-select-project").innerHTML = state.projects
-    .map(p => `<option value="${p.id}" ${p.id === state.currentProjectId ? "selected":""}>${p.name}</option>`)
+    .map(p => `<option value="${p.id}" ${p.id === state.currentProjectId ? "selected" : ""}>${p.name}</option>`)
     .join("");
 
   $("#quick-task-modal").classList.remove("hidden");

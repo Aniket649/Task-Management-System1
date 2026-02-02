@@ -1,513 +1,569 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>TaskFlow – Task Management</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
+<!DOCTYPE html>
+<html lang="en">
 
-    <link rel="manifest" href="manifest.json">
+<head>
+  <meta charset="UTF-8" />
+  <title>TaskFlow – Task Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
+  <link rel="manifest" href="manifest.json">
 
-    <!-- External CSS file (NO inline <style> here) -->
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  
-  <body>
-  
-<!-- AUTH SCREEN -->
-<div id="auth-screen" class="auth-screen">
-  <div class="auth-card">
 
-    <div class="auth-header">
-      <h1>TaskFlow</h1>
-      <p id="auth-desc">Sign in to manage tasks, projects, and deadlines.</p>
+
+  <!-- External CSS file (NO inline <style> here) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+
+      <div class="auth-header">
+        <h1>TaskFlow</h1>
+        <p id="auth-desc">Sign in to manage tasks, projects, and deadlines.</p>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="login-form" class="auth-form">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="Gmail" required />
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Password" required />
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+
+        <div class="auth-divider">
+          <span>OR</span>
+        </div>
+
+        <button type="button" class="btn btn-google">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
+              fill="#4285F4" />
+            <path
+              d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.836.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z"
+              fill="#34A853" />
+            <path
+              d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"
+              fill="#FBBC05" />
+            <path
+              d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"
+              fill="#EA4335" />
+          </svg>
+          Continue with Google
+        </button>
+
+        <button type="button" class="btn btn-twitter">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+          </svg>
+          Continue with Twitter
+        </button>
+
+
+        <button id="installBtn" style="display:none;">
+          Install TaskFlow App
+        </button>
+
+
+
+
+        <p class="msg" id="loginMsg"></p>
+
+        <div class="auth-footer-row">
+          <a href="#" id="goForgot">Forgot password?</a>
+          <a href="#" id="goRegisterLink">Create new account</a>
+        </div>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="register-form" class="auth-form hidden">
+        <label>First Name</label>
+        <input type="text" id="regFirstName" placeholder="Aniket" required />
+
+        <label>Last Name</label>
+        <input type="text" id="regLastName" placeholder="Kharad" required />
+
+        <label>Email</label>
+        <input type="email" id="regEmail" placeholder="aniketkharad6@gmail.com" required />
+
+        <label>Password</label>
+        <input type="password" id="regPassword" placeholder="Create password" required />
+
+        <label>Confirm Password</label>
+        <input type="password" id="regConfirmPassword" placeholder="Confirm password" required />
+
+        <button type="submit" class="btn btn-primary">Create Account</button>
+
+        <p class="msg" id="registerMsg"></p>
+
+        <div class="auth-footer-row">
+          <a href="#" id="goLoginLink">Already have an account? Sign in</a>
+        </div>
+      </form>
+
+      <!-- FORGOT PASSWORD FORM -->
+      <form id="forgot-form" class="auth-form hidden">
+        <label>Email</label>
+        <input type="email" id="forgotEmail" placeholder="Enter your registered email" required />
+
+        <button type="submit" class="btn btn-primary">Send Reset Code</button>
+
+        <p class="msg" id="forgotMsg"></p>
+
+        <div class="auth-footer-row">
+          <a href="#" id="goLoginFromForgot">Back to login</a>
+        </div>
+      </form>
+
+      <!-- RESET PASSWORD FORM (demo) -->
+      <form id="reset-form" class="auth-form hidden">
+        <label>Reset Code</label>
+        <input type="text" id="resetCode" placeholder="Enter code (demo)" required />
+
+        <label>New Password</label>
+        <input type="password" id="newPassword" placeholder="New password" required />
+
+        <label>Confirm New Password</label>
+        <input type="password" id="confirmNewPassword" placeholder="Confirm new password" required />
+
+        <button type="submit" class="btn btn-primary">Reset Password</button>
+
+        <p class="msg" id="resetMsg"></p>
+
+        <div class="auth-footer-row">
+          <a href="#" id="goLoginFromReset">Back to login</a>
+        </div>
+      </form>
+
     </div>
-
-    <!-- LOGIN FORM -->
-    <form id="login-form" class="auth-form">
-      <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="aniketkharad6@gmail.com" required />
-
-      <label>Password</label>
-      <input type="password" id="loginPassword" placeholder="Your password" required />
-
-      <button type="submit" class="btn btn-primary">Sign In</button>
-
-
-      <button id="installBtn" style="display:none;">
-  Install TaskFlow App
-</button>
-
-
-
-
-      <p class="msg" id="loginMsg"></p>
-
-      <div class="auth-footer-row">
-        <a href="#" id="goForgot">Forgot password?</a>
-        <a href="#" id="goRegisterLink">Create new account</a>
-      </div>
-    </form>
-
-    <!-- REGISTER FORM -->
-    <form id="register-form" class="auth-form hidden">
-      <label>First Name</label>
-      <input type="text" id="regFirstName" placeholder="Aniket" required />
-
-      <label>Last Name</label>
-      <input type="text" id="regLastName" placeholder="Kharad" required />
-
-      <label>Email</label>
-      <input type="email" id="regEmail" placeholder="aniketkharad6@gmail.com" required />
-
-      <label>Password</label>
-      <input type="password" id="regPassword" placeholder="Create password" required />
-
-      <label>Confirm Password</label>
-      <input type="password" id="regConfirmPassword" placeholder="Confirm password" required />
-
-      <button type="submit" class="btn btn-primary">Create Account</button>
-
-      <p class="msg" id="registerMsg"></p>
-
-      <div class="auth-footer-row">
-        <a href="#" id="goLoginLink">Already have an account? Sign in</a>
-      </div>
-    </form>
-
-    <!-- FORGOT PASSWORD FORM -->
-    <form id="forgot-form" class="auth-form hidden">
-      <label>Email</label>
-      <input type="email" id="forgotEmail" placeholder="Enter your registered email" required />
-
-      <button type="submit" class="btn btn-primary">Send Reset Code</button>
-
-      <p class="msg" id="forgotMsg"></p>
-
-      <div class="auth-footer-row">
-        <a href="#" id="goLoginFromForgot">Back to login</a>
-      </div>
-    </form>
-
-    <!-- RESET PASSWORD FORM (demo) -->
-    <form id="reset-form" class="auth-form hidden">
-      <label>Reset Code</label>
-      <input type="text" id="resetCode" placeholder="Enter code (demo)" required />
-
-      <label>New Password</label>
-      <input type="password" id="newPassword" placeholder="New password" required />
-
-      <label>Confirm New Password</label>
-      <input type="password" id="confirmNewPassword" placeholder="Confirm new password" required />
-
-      <button type="submit" class="btn btn-primary">Reset Password</button>
-
-      <p class="msg" id="resetMsg"></p>
-
-      <div class="auth-footer-row">
-        <a href="#" id="goLoginFromReset">Back to login</a>
-      </div>
-    </form>
-
   </div>
-</div>
 
 
-  
-    <!-- APP -->
-    <div id="app" class="app hidden">
-      <header class="topbar">
-        <div class="topbar-left">
-          <button id="sidebar-toggle" class="icon-button hamburger" title="Menu">☰</button>
-  
-          <div class="brand-pill">
-            <span class="brand-dot"></span>
-            <strong>TaskFlow</strong>
+
+  <!-- APP -->
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="sidebar-toggle" class="icon-button hamburger" title="Menu">☰</button>
+
+        <div class="brand-pill">
+          <span class="brand-dot"></span>
+          <strong>TaskFlow</strong>
+        </div>
+
+        <div class="workspace-select" title="Workspace">
+          <span id="active-workspace-name">Acme Workspace</span>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <div class="search-box">
+          <span class="icon">🔎</span>
+          <input type="text" id="global-search" placeholder="Search tasks (title)..." />
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button id="add-task-top" class="btn btn-primary btn-sm">+ New Task</button>
+
+        <div style="position: relative;">
+          <button id="notifications-button" class="icon-button" title="Notifications">🔔</button>
+          <span id="notification-badge" class="badge hidden"></span>
+        </div>
+
+        <div class="avatar" title="Profile">JD</div>
+        <button id="logout-button" class="btn btn-soft btn-sm" title="Logout">Logout</button>
+
+        <div id="notifications-dropdown" class="dropdown hidden">
+          <div class="dropdown-header">Notifications</div>
+          <div id="notifications-list" class="dropdown-body empty-state">No notifications</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-section">
+            <div class="sidebar-title">Navigation</div>
+            <button class="nav-link active" data-view="dashboard">Dashboard</button>
+            <button class="nav-link" data-view="my-tasks">My Tasks</button>
+            <button class="nav-link" data-view="projects">Projects</button>
+            <button class="nav-link" data-view="calendar">Calendar</button>
+            <button class="nav-link" data-view="reports">Reports</button>
+            <button class="nav-link hidden" id="admin-nav" data-view="admin">Admin Panel</button>
           </div>
-  
-          <div class="workspace-select" title="Workspace">
-            <span id="active-workspace-name">Acme Workspace</span>
-            <span class="chevron">▾</span>
+
+          <div class="sidebar-section" style="margin-top: 1rem;">
+            <div class="sidebar-title">
+              Projects
+              <button id="add-project" class="icon-button small" title="Add project">＋</button>
+            </div>
+            <div id="project-list" class="sidebar-list"></div>
           </div>
         </div>
 
-        <div class="topbar-center">
-          <div class="search-box">
-            <span class="icon">🔎</span>
-            <input type="text" id="global-search" placeholder="Search tasks (title)..." />
-          </div>
+        <div class="sidebar-footer">
+          <button id="reset-demo" class="btn btn-danger btn-sm" title="Reset all saved demo data">Reset Demo
+            Data</button>
         </div>
-  
-        <div class="topbar-right">
-          <button id="add-task-top" class="btn btn-primary btn-sm">+ New Task</button>
-  
-          <div style="position: relative;">
-            <button id="notifications-button" class="icon-button" title="Notifications">🔔</button>
-            <span id="notification-badge" class="badge hidden"></span>
-          </div>
-  
-          <div class="avatar" title="Profile">JD</div>
-          <button id="logout-button" class="btn btn-soft btn-sm" title="Logout">Logout</button>
-  
-          <div id="notifications-dropdown" class="dropdown hidden">
-            <div class="dropdown-header">Notifications</div>
-            <div id="notifications-list" class="dropdown-body empty-state">No notifications</div>
-          </div>
-        </div>
-      </header>
-  
-      <div class="app-body">
-        <aside id="sidebar" class="sidebar">
-          <div class="sidebar-top">
-            <div class="sidebar-section">
-              <div class="sidebar-title">Navigation</div>
-              <button class="nav-link active" data-view="dashboard">Dashboard</button>
-              <button class="nav-link" data-view="my-tasks">My Tasks</button>
-              <button class="nav-link" data-view="projects">Projects</button>
-              <button class="nav-link" data-view="calendar">Calendar</button>
-              <button class="nav-link" data-view="reports">Reports</button>
-              <button class="nav-link hidden" id="admin-nav" data-view="admin">Admin Panel</button>
-            </div>
-  
-            <div class="sidebar-section" style="margin-top: 1rem;">
-              <div class="sidebar-title">
-                Projects
-                <button id="add-project" class="icon-button small" title="Add project">＋</button>
-              </div>
-              <div id="project-list" class="sidebar-list"></div>
-            </div>
-          </div>
-  
-          <div class="sidebar-footer">
-            <button id="reset-demo" class="btn btn-danger btn-sm" title="Reset all saved demo data">Reset Demo Data</button>
-          </div>
-        </aside>
-  
-        <div id="sidebar-overlay" class="sidebar-overlay"></div>
-  
-        <main class="main-content">
-          <!-- Dashboard -->
-          <section id="view-dashboard" class="view active">
-            <h2>Dashboard</h2>
-            <p class="muted">Overview of your tasks and deadlines.</p>
-  
-            <div class="grid-2" style="margin-top: .9rem;">
-              <div class="card">
-                <div class="card-header"><h3>My Tasks Overview</h3></div>
-                <div class="card-body"><div id="dashboard-stats" class="stats-row"></div></div>
-              </div>
-  
-              <div class="card">
-                <div class="card-header"><h3>Upcoming Deadlines</h3></div>
-                <div class="card-body"><ul id="upcoming-deadlines" class="list"></ul></div>
-              </div>
-            </div>
-  
+      </aside>
+
+      <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+      <main class="main-content">
+        <!-- Dashboard -->
+        <section id="view-dashboard" class="view active">
+          <h2>Dashboard</h2>
+          <p class="muted">Overview of your tasks and deadlines.</p>
+
+          <div class="grid-2" style="margin-top: .9rem;">
             <div class="card">
-              <div class="card-header"><h3>Recent Activity</h3></div>
-              <div class="card-body"><ul id="recent-activity" class="list"></ul></div>
-            </div>
-          </section>
-  
-          <!-- My Tasks -->
-          <section id="view-my-tasks" class="view">
-            <div class="view-header">
-              <div>
-                <h2>My Tasks</h2>
-                <p id="my-tasks-subtitle" class="muted">Filter by status and priority.</p>
+              <div class="card-header">
+                <h3>My Tasks Overview</h3>
               </div>
-              <div class="view-controls">
-                <select id="my-tasks-filter-status">
-                  <option value="">All statuses</option>
-                  <option value="todo">To Do</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="done">Done</option>
-                </select>
-                <select id="my-tasks-filter-priority">
-                  <option value="">All priorities</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="urgent">Urgent</option>
-                </select>
-                <button id="clear-search" class="btn btn-soft btn-sm">Clear Search</button>
+              <div class="card-body">
+                <div id="dashboard-stats" class="stats-row"></div>
               </div>
             </div>
-            <div id="my-tasks-list" class="table"></div>
-          </section>
-  
-          <!-- Calendar -->
-          <section id="view-calendar" class="view">
-            <h2>Calendar</h2>
-            <p class="muted">Simple date-grouped view.</p>
-            <ul id="calendar-list" class="list" style="margin-top: .9rem;"></ul>
-          </section>
-  
-          <!-- Reports -->
-          <section id="view-reports" class="view">
-            <h2>Reports</h2>
-            <p class="muted">Task distribution by status and priority.</p>
-  
-            <div class="grid-2" style="margin-top:.9rem;">
-              <div class="card">
-                <div class="card-header"><h3>Tasks by Status</h3></div>
-                <div class="card-body"><ul id="report-by-status" class="list"></ul></div>
-              </div>
-  
-              <div class="card">
-                <div class="card-header"><h3>Tasks by Priority</h3></div>
-                <div class="card-body"><ul id="report-by-priority" class="list"></ul></div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Projects -->
-          <section id="view-projects" class="view">
-            <h2>Projects</h2>
-            <p class="muted">Manage your projects and teams.</p>
 
             <div class="card">
               <div class="card-header">
-                <h3>Create Project</h3>
+                <h3>Upcoming Deadlines</h3>
               </div>
               <div class="card-body">
-                <form id="create-project-form">
-                  <div style="margin-bottom: 0.5rem;">
-                    <input id="project-name" placeholder="Project name" required style="width: 100%;" />
-                  </div>
-                  <div style="margin-bottom: 0.5rem;">
-                    <textarea id="project-description" placeholder="Project description (optional)" rows="2" style="width: 100%;"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Create Project</button>
-                </form>
+                <ul id="upcoming-deadlines" class="list"></ul>
               </div>
             </div>
+          </div>
 
-            <div id="projects-list" style="margin-top: 1rem;"></div>
-          </section>
-
-          <!-- Admin -->
-          <section id="view-admin" class="view">
-            <h2>Admin Panel</h2>
-            <p class="muted">Manage users and roles.</p>
-
-            <div class="card">
-              <div class="card-header"><h3>Users</h3></div>
-              <div class="card-body">
-                <div id="admin-users"></div>
-              </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Activity</h3>
             </div>
-          </section>
-
-          <!-- Project -->
-          <section id="view-project" class="view">
-            <div class="view-header">
-              <div>
-                <h2 id="project-title">Project</h2>
-                <p id="project-subtitle" class="muted"></p>
-                <p class="muted" style="margin-top:.35rem;">Tip: Drag cards to reorder or move between columns.</p>
-              </div>
-              <div class="view-controls">
-                <button id="project-tab-board" class="btn-tab active">Board</button>
-                <button id="project-tab-list" class="btn-tab">List</button>
-                <button id="project-tab-activity" class="btn-tab">Activity</button>
-              </div>
+            <div class="card-body">
+              <ul id="recent-activity" class="list"></ul>
             </div>
-  
-            <div class="filters-row">
-              <select id="project-filter-status">
+          </div>
+        </section>
+
+        <!-- My Tasks -->
+        <section id="view-my-tasks" class="view">
+          <div class="view-header">
+            <div>
+              <h2>My Tasks</h2>
+              <p id="my-tasks-subtitle" class="muted">Filter by status and priority.</p>
+            </div>
+            <div class="view-controls">
+              <select id="my-tasks-filter-status">
                 <option value="">All statuses</option>
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
                 <option value="done">Done</option>
               </select>
-  
-              <select id="project-filter-assignee">
-                <option value="">All assignees</option>
-              </select>
-  
-              <select id="project-filter-priority">
+              <select id="my-tasks-filter-priority">
                 <option value="">All priorities</option>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
                 <option value="urgent">Urgent</option>
               </select>
-  
-              <button id="add-task-project" class="btn btn-primary btn-sm">+ New Task</button>
+              <button id="clear-search" class="btn btn-soft btn-sm">Clear Search</button>
             </div>
-  
-            <div id="project-board" class="board"></div>
-            <div id="project-list-view" class="table hidden"></div>
-            <div id="project-activity-view" class="list hidden"></div>
-          </section>
-        </main>
-      </div>
-    </div>
-  
-    <!-- TASK MODAL -->
-    <div id="task-modal" class="modal hidden">
-      <div class="modal-backdrop"></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="title-edit">
-            <div id="task-title-view" class="title-text"></div>
-            <input id="task-title-input" class="title-input hidden" type="text" />
-            <button id="task-title-edit" class="btn btn-soft btn-sm" type="button">Edit</button>
-            <button id="task-title-save" class="btn btn-primary btn-sm hidden" type="button">Save</button>
-            <button id="task-title-cancel" class="btn btn-soft btn-sm hidden" type="button">Cancel</button>
           </div>
-          <button id="task-modal-close" class="icon-button" title="Close">✕</button>
-        </div>
-  
-        <div class="modal-body">
-          <div class="task-modal-meta">
+          <div id="my-tasks-list" class="table"></div>
+        </section>
+
+        <!-- Calendar -->
+        <section id="view-calendar" class="view">
+          <h2>Calendar</h2>
+          <p class="muted">Simple date-grouped view.</p>
+          <ul id="calendar-list" class="list" style="margin-top: .9rem;"></ul>
+        </section>
+
+        <!-- Reports -->
+        <section id="view-reports" class="view">
+          <h2>Reports</h2>
+          <p class="muted">Task distribution by status and priority.</p>
+
+          <div class="grid-2" style="margin-top:.9rem;">
+            <div class="card">
+              <div class="card-header">
+                <h3>Tasks by Status</h3>
+              </div>
+              <div class="card-body">
+                <ul id="report-by-status" class="list"></ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Tasks by Priority</h3>
+              </div>
+              <div class="card-body">
+                <ul id="report-by-priority" class="list"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="view-projects" class="view">
+          <h2>Projects</h2>
+          <p class="muted">Manage your projects and teams.</p>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Create Project</h3>
+            </div>
+            <div class="card-body">
+              <form id="create-project-form">
+                <div style="margin-bottom: 0.5rem;">
+                  <input id="project-name" placeholder="Project name" required style="width: 100%;" />
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                  <textarea id="project-description" placeholder="Project description (optional)" rows="2"
+                    style="width: 100%;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Project</button>
+              </form>
+            </div>
+          </div>
+
+          <div id="projects-list" style="margin-top: 1rem;"></div>
+        </section>
+
+        <!-- Admin -->
+        <section id="view-admin" class="view">
+          <h2>Admin Panel</h2>
+          <p class="muted">Manage users and roles.</p>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Users</h3>
+            </div>
+            <div class="card-body">
+              <div id="admin-users"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Project -->
+        <section id="view-project" class="view">
+          <div class="view-header">
             <div>
-              <label>Status</label>
-              <select id="task-modal-status">
-                <option value="todo">To Do</option>
-                <option value="in-progress">In Progress</option>
-                <option value="done">Done</option>
-              </select>
+              <h2 id="project-title">Project</h2>
+              <p id="project-subtitle" class="muted"></p>
+              <p class="muted" style="margin-top:.35rem;">Tip: Drag cards to reorder or move between columns.</p>
             </div>
-            <div>
-              <label>Priority</label>
-              <select id="task-modal-priority">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="urgent">Urgent</option>
-              </select>
-            </div>
-            <div>
-              <label>Due date</label>
-              <input type="date" id="task-modal-due" />
+            <div class="view-controls">
+              <button id="project-tab-board" class="btn-tab active">Board</button>
+              <button id="project-tab-list" class="btn-tab">List</button>
+              <button id="project-tab-activity" class="btn-tab">Activity</button>
             </div>
           </div>
-  
-          <label>Description</label>
-          <textarea id="task-modal-description" rows="4" placeholder="Add a task description..."></textarea>
-  
-          <!-- ASSIGNEES -->
-          <div class="assignees-box">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <label style="margin:0;">Assignees</label>
-              <span class="muted" style="font-size:.82rem;">Multi-select</span>
-            </div>
-            <select id="assignees-select" multiple size="4" style="margin-top:.5rem;"></select>
-            <div id="assignees-chips" class="assignees-row"></div>
+
+          <div class="filters-row">
+            <select id="project-filter-status">
+              <option value="">All statuses</option>
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+
+            <select id="project-filter-assignee">
+              <option value="">All assignees</option>
+            </select>
+
+            <select id="project-filter-priority">
+              <option value="">All priorities</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+
+            <button id="add-task-project" class="btn btn-primary btn-sm">+ New Task</button>
           </div>
-  
-          <!-- TAG EDITOR -->  
-          <div class="tag-editor">
-            <div class="tag-editor-header">
-              <label style="margin:0;">Tags</label>
-              <span class="muted" style="font-size:.82rem;">Press Enter to add</span>
-            </div>
-            <div id="tag-editor-chips" class="tag-editor-row"></div>
-            <div class="tag-editor-row" style="margin-top:.55rem;">
-              <input id="tag-input" class="tag-input" type="text" placeholder="Add tag (e.g., UI, Bug, API)..." />
-              <button id="tag-add-btn" class="btn btn-primary btn-sm" type="button">Add</button>
-            </div>
+
+          <div id="project-board" class="board"></div>
+          <div id="project-list-view" class="table hidden"></div>
+          <div id="project-activity-view" class="list hidden"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- TASK MODAL -->
+  <div id="task-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="title-edit">
+          <div id="task-title-view" class="title-text"></div>
+          <input id="task-title-input" class="title-input hidden" type="text" />
+          <button id="task-title-edit" class="btn btn-soft btn-sm" type="button">Edit</button>
+          <button id="task-title-save" class="btn btn-primary btn-sm hidden" type="button">Save</button>
+          <button id="task-title-cancel" class="btn btn-soft btn-sm hidden" type="button">Cancel</button>
+        </div>
+        <button id="task-modal-close" class="icon-button" title="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="task-modal-meta">
+          <div>
+            <label>Status</label>
+            <select id="task-modal-status">
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
           </div>
-  
-          <!-- SUBTASKS -->
-          <div style="margin-top:.6rem;">
-            <h4 style="margin:.6rem 0 .4rem;">Subtasks</h4>
-            <ul id="task-modal-subtasks-list" class="list small"></ul>
-            <div class="comment-input">
-              <input type="text" id="task-modal-subtask-input" placeholder="Add a subtask..." />
-              <button id="task-modal-add-subtask" class="btn btn-primary btn-sm">Add</button>
-            </div>
+          <div>
+            <label>Priority</label>
+            <select id="task-modal-priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
           </div>
-  
-          <div style="margin-top:.6rem;">
-            <h4 style="margin:.6rem 0 .4rem;">Comments</h4>
-            <ul id="task-modal-comments-list" class="list small"></ul>
-  
-            <div class="comment-input">
-              <input type="text" id="task-modal-comment-input" placeholder="Write a comment..." />
-              <button id="task-modal-add-comment" class="btn btn-primary btn-sm">Send</button>
-            </div>
+          <div>
+            <label>Due date</label>
+            <input type="date" id="task-modal-due" />
           </div>
         </div>
-  
-        <div class="modal-footer">
-          <button id="task-modal-delete" class="btn btn-danger btn-sm">Delete</button>
-          <button id="task-modal-save" class="btn btn-primary btn-sm">Save Changes</button>
+
+        <label>Description</label>
+        <textarea id="task-modal-description" rows="4" placeholder="Add a task description..."></textarea>
+
+        <!-- ASSIGNEES -->
+        <div class="assignees-box">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <label style="margin:0;">Assignees</label>
+            <span class="muted" style="font-size:.82rem;">Multi-select</span>
+          </div>
+          <select id="assignees-select" multiple size="4" style="margin-top:.5rem;"></select>
+          <div id="assignees-chips" class="assignees-row"></div>
+        </div>
+
+        <!-- TAG EDITOR -->
+        <div class="tag-editor">
+          <div class="tag-editor-header">
+            <label style="margin:0;">Tags</label>
+            <span class="muted" style="font-size:.82rem;">Press Enter to add</span>
+          </div>
+          <div id="tag-editor-chips" class="tag-editor-row"></div>
+          <div class="tag-editor-row" style="margin-top:.55rem;">
+            <input id="tag-input" class="tag-input" type="text" placeholder="Add tag (e.g., UI, Bug, API)..." />
+            <button id="tag-add-btn" class="btn btn-primary btn-sm" type="button">Add</button>
+          </div>
+        </div>
+
+        <!-- SUBTASKS -->
+        <div style="margin-top:.6rem;">
+          <h4 style="margin:.6rem 0 .4rem;">Subtasks</h4>
+          <ul id="task-modal-subtasks-list" class="list small"></ul>
+          <div class="comment-input">
+            <input type="text" id="task-modal-subtask-input" placeholder="Add a subtask..." />
+            <button id="task-modal-add-subtask" class="btn btn-primary btn-sm">Add</button>
+          </div>
+        </div>
+
+        <div style="margin-top:.6rem;">
+          <h4 style="margin:.6rem 0 .4rem;">Comments</h4>
+          <ul id="task-modal-comments-list" class="list small"></ul>
+
+          <div class="comment-input">
+            <input type="text" id="task-modal-comment-input" placeholder="Write a comment..." />
+            <button id="task-modal-add-comment" class="btn btn-primary btn-sm">Send</button>
+          </div>
         </div>
       </div>
-    </div>
-  
-    <!-- QUICK TASK MODAL -->
-    <div id="quick-task-modal" class="modal hidden">
-      <div class="modal-backdrop"></div>
-      <div class="modal-content small">
-        <div class="modal-header">
-          <h3>New Task</h3>
-          <button id="quick-task-close" class="icon-button" title="Close">✕</button>
-        </div>
-  
-        <div class="modal-body">
-          <label>Title</label>
-          <input type="text" id="quick-task-input-title" placeholder="e.g., Update landing page copy" />
-  
-          <label>Project</label>
-          <select id="quick-task-select-project"></select>
-  
-          <label>Priority</label>
-          <select id="quick-task-select-priority">
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-            <option value="high">High</option>
-            <option value="urgent">Urgent</option>
-          </select>
-  
-          <label>Due date</label>
-          <input type="date" id="quick-task-input-due" />
-        </div>
-  
-        <div class="modal-footer">
-          <button id="quick-task-create" class="btn btn-primary btn-sm">Create</button>
-        </div>
+
+      <div class="modal-footer">
+        <button id="task-modal-delete" class="btn btn-danger btn-sm">Delete</button>
+        <button id="task-modal-save" class="btn btn-primary btn-sm">Save Changes</button>
       </div>
     </div>
-  
-    <!-- CREATE PROJECT MODAL -->
-    <div id="project-modal" class="modal hidden">
-      <div class="modal-backdrop"></div>
-      <div class="modal-content small">
-        <div class="modal-header">
-          <h3>New Project</h3>
-          <button id="project-modal-close" class="icon-button" title="Close">✕</button>
-        </div>
-        <div class="modal-body">
-          <label>Project name</label>
-          <input type="text" id="project-name-input" placeholder="e.g., Client Onboarding" />
-          <label>Description</label>
-          <textarea id="project-desc-input" rows="4" placeholder="Short description..."></textarea>
-        </div>
-        <div class="modal-footer">
-          <button id="project-create-btn" class="btn btn-primary btn-sm">Create Project</button>
-        </div>
+  </div>
+
+  <!-- QUICK TASK MODAL -->
+  <div id="quick-task-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content small">
+      <div class="modal-header">
+        <h3>New Task</h3>
+        <button id="quick-task-close" class="icon-button" title="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <label>Title</label>
+        <input type="text" id="quick-task-input-title" placeholder="e.g., Update landing page copy" />
+
+        <label>Project</label>
+        <select id="quick-task-select-project"></select>
+
+        <label>Priority</label>
+        <select id="quick-task-select-priority">
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+          <option value="high">High</option>
+          <option value="urgent">Urgent</option>
+        </select>
+
+        <label>Due date</label>
+        <input type="date" id="quick-task-input-due" />
+      </div>
+
+      <div class="modal-footer">
+        <button id="quick-task-create" class="btn btn-primary btn-sm">Create</button>
       </div>
     </div>
-  
-    <script src="app.js"></script>
+  </div>
+
+  <!-- CREATE PROJECT MODAL -->
+  <div id="project-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content small">
+      <div class="modal-header">
+        <h3>New Project</h3>
+        <button id="project-modal-close" class="icon-button" title="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <label>Project name</label>
+        <input type="text" id="project-name-input" placeholder="e.g., Client Onboarding" />
+        <label>Description</label>
+        <textarea id="project-desc-input" rows="4" placeholder="Short description..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button id="project-create-btn" class="btn btn-primary btn-sm">Create Project</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 
 
-    <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("service-worker.js")
-        .then(() => console.log("Service Worker registered"))
-        .catch((err) => console.error("SW registration failed", err));
-    });
-  }
-</script>
-  
-  </body>
-  </html>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("service-worker.js")
+          .then(() => console.log("Service Worker registered"))
+          .catch((err) => console.error("SW registration failed", err));
+      });
+    }
+  </script>
+
+</body>
+
+</html>
